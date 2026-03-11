@@ -8,28 +8,30 @@ public class SystemCollectorTest {
     private final SystemCollector collector = new SystemCollector();
 
     @Test
-    public void testMemoryPercentage() {
-        double percentage = collector.memoryPercentage();
+    public void testMemoryUsagePercentage() {
+        double percentage = collector.getMemoryUsagePercentage();
         assertTrue("Memory percentage should be between 0 and 100", percentage >= 0 && percentage <= 100);
     }
 
     @Test
     public void testTotalMemory() {
-        long total = collector.totalMemory();
+        long total = collector.getTotalMemory();
         assertTrue("Total memory should be greater than 0", total > 0);
     }
 
     @Test
-    public void testCpuPercentage() {
-        double percentage = collector.cpuPercentage();
-        assertTrue("CPU percentage should be between 0 and 100", percentage >= 0 && percentage <= 100);
+    public void testCpuUsageIncremental() {
+        // call twice to exercise tick update logic
+        double first = collector.getCpuUsageIncremental();
+        double second = collector.getCpuUsageIncremental();
+        assertTrue("CPU percentage should be between 0 and 100", first >= 0 && first <= 100);
+        assertTrue("CPU percentage should be between 0 and 100", second >= 0 && second <= 100);
     }
 
     @Test
-    public void testCpuTemp() {
-        int temp = collector.cpuTemp();
-        // Temperature might not be available, so just check it's an int
-        // If temp <= 0, it prints error, but we can assert it's not negative or something
+    public void testCpuTemperature() {
+        double temp = collector.getCpuTemperature();
+        // Temperature could be 0 if unavailable; ensure non-negative value
         assertTrue("CPU temperature should be non-negative", temp >= 0);
     }
 }
