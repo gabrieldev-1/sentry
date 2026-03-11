@@ -11,10 +11,11 @@ public class ProcessCollectorTest {
     private static ProcessCollector collector = new ProcessCollector();
 
     @Test
-    public void getProcessTest() {
-        List<OSProcess> processes = collector.getProcess();
+    public void getTopProcessTest() {
+        int limit = 5;
+        List<OSProcess> processes = collector.getTopProcess(limit);
         assertNotNull("Process list should not be null", processes);
-        assertTrue("Process list size should be <= limit", processes.size() != 0);
+        assertTrue("Process list size should be <= limit", processes.size() <= limit);
     }
 
     @Test
