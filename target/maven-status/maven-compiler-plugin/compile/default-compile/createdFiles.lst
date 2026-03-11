@@ -1,2 +1,3 @@
 com/sentry/collector/SystemCollector.class
+com/sentry/collector/ProcessCollector.class
 com/sentry/Main.class
