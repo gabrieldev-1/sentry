@@ -23,9 +23,9 @@ public class SystemCollector {
     }
     
     public double memoryPercentage() {
-        long avaliableMemory = memory.getAvaliable();
+        long availableMemory = memory.getAvailable();
         long totalMemory = totalMemory();
-        long usedMemory = totalMemory - avaliableMemory;
+        long usedMemory = totalMemory - availableMemory;
 
         return (double) usedMemory / totalMemory * 100;
     }
@@ -34,12 +34,12 @@ public class SystemCollector {
         return memory.getTotal();
     }
     
-    public long cpuPercentage() {
-        return cpu.getSystemCpuLoadBetweenTicks() * 100;
+    public double cpuPercentage() {
+        return cpu.getSystemCpuLoad(1000) * 100;
     }
     
-    public int cpuTemp() {
-        double temp = sensors.getCpuTemperture();
+    public double cpuTemp() {
+        double temp = sensors.getCpuTemperature();
 
         if(temp <= 0) {
             System.err.println("Temperature not available.");
