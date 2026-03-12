@@ -20,8 +20,8 @@ public class SystemSnapShot {
         this.memoryUsage = sCollector.getMemoryUsagePercentage();
         this.cpuUsage = sCollector.getCpuUsageIncremental();
         this.cpuTemp = sCollector.getCpuTemperature();
-        // default to top 10 processes by CPU
-        this.processes = pCollector.getTopProcess(10);
+        // default to top 50 processes by CPU
+        this.processes = pCollector.getTopProcess(50);
     }
 
     public double getMemoryUsage() { return memoryUsage; }

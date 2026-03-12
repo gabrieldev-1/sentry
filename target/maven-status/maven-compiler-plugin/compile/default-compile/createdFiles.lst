@@ -1,4 +1,5 @@
 com/sentry/collector/SystemCollector.class
 com/sentry/collector/ProcessCollector.class
+com/sentry/dashboard/Dashboard.class
 com/sentry/SystemSnapShot.class
 com/sentry/Main.class
