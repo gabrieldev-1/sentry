@@ -30,4 +30,11 @@ public class ProcessCollectorTest {
             assertNull("Process should be null if not found", process);
         }
     }
+
+    @Test
+    public void getNumOfThreadsTest() {
+        int result = collector.getNumOfThreads();
+        assertTrue("The number of active threads in the system cannot be zero.", result > 0);
+
+    }
 }
