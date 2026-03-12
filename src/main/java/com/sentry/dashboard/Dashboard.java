@@ -63,58 +63,47 @@ public class Dashboard {
     }
 
     private void renderHeader(SystemSnapShot snapshot) {
-
-        // Lanterna variables:
         int rowStart = 3;
+
         int col1 = 1;
-        int col2 = 50;
-        int col3 = 97;
+        int col2 = 42;
+        int col3 = 82;
 
-        // CPU INFORMATION (Colomn 1)
-        double cpuUsage = snapshot.getCpuUsage();
-        double cpuTemp = snapshot.getCpuTemp();
-
+        // CPU INFORMATION
         tg.setForegroundColor(TextColor.ANSI.YELLOW);
         tg.putString(col1, rowStart, "CPU INFORMATION");
+        tg.setForegroundColor(TextColor.ANSI.DEFAULT);
 
         double[] cores = snapshot.getCoresUsage();
-        StringBuilder coresStrBuilder = new StringBuilder("Cores: ");
+        int coresPerRow = 2;
+        int currentRow = rowStart + 1;
 
         for (int i = 0; i < cores.length; i++) {
-            coresStrBuilder.append(String.format("C%d: %.1f%% ", i, cores[i]));
+            int currentX = col1 + (i % coresPerRow * 18);
+
+            if (i > 0 && i % coresPerRow == 0) currentRow++;
+            tg.putString(currentX, currentRow, String.format("C%d: %5.1f%%", i, cores[i]));
         }
 
-        String coresStr = coresStrBuilder.toString();
-        tg.setForegroundColor(TextColor.ANSI.DEFAULT);
+        int nextDataRow = currentRow + 1;
+        tg.putString(col1, nextDataRow, String.format("Total CPU: %.1f%%", snapshot.getCpuUsage()));
+        tg.putString(col1, nextDataRow + 1, String.format("Temp:      %.1f°C", snapshot.getCpuTemp()));
 
-        tg.putString(col1, rowStart + 1, coresStr);
-        tg.putString(col1, rowStart + 2, String.format("Total CPU: %.1f%%", cpuUsage));
-        tg.putString(col1, rowStart + 3, String.format("Temperature: %.1f°C", cpuTemp));
-
-        // MEMORY INFORMATION (Column 2)
-        double totalMemory = snapshot.getTotalMemory();
-        double memoryUsage = snapshot.getMemoryUsage();
-
+        // MEMORY INFORMATION
         tg.setForegroundColor(TextColor.ANSI.YELLOW);
         tg.putString(col2, rowStart, "MEMORY INFORMATION");
-
         tg.setForegroundColor(TextColor.ANSI.DEFAULT);
-        tg.putString(col2, rowStart + 1, String.format("Total: %.1f%%", totalMemory));
-        tg.putString(col2, rowStart + 2, String.format("Usage: %.1f%%", memoryUsage));
 
+        double totalGB = snapshot.getTotalMemory() / 1024.0 / 1024.0 / 1024.0;
+        tg.putString(col2, rowStart + 1, String.format("Total: %.1f GB", totalGB));
+        tg.putString(col2, rowStart + 2, String.format("Usage: %.1f%%", snapshot.getMemoryUsage()));
 
-        // SYSTEM INFORMATION (Column 3)
-        int numOfThreads = snapshot.getNumThreads();
-        int numOfProcess = snapshot.getNumProcesses();
-
+        // PROCESSES INFORMATION
         tg.setForegroundColor(TextColor.ANSI.YELLOW);
-        tg.putString(col3, rowStart, "PROCESSES INFORMATION:");
-
+        tg.putString(col3, rowStart, "SYSTEM STATUS");
         tg.setForegroundColor(TextColor.ANSI.DEFAULT);
-        tg.putString(col3, rowStart + 1, "process: " + numOfProcess);
-        tg.putString(col3, rowStart + 2, "threads: " + numOfThreads);
-
-
+        tg.putString(col3, rowStart + 1, "Processes: " + snapshot.getProcesses().size());
+        tg.putString(col3, rowStart + 2, "Threads:   " + snapshot.getProcesses().stream().mapToInt(p -> p.getThreadCount()).sum());
     }
 
     /**
@@ -129,7 +118,7 @@ public class Dashboard {
         for(int i = 0; i < 115; i++) {
             separetor.append("─");
         }
-
+    
         tg.putString(column, row, separetor.toString());
     }
 
@@ -137,34 +126,29 @@ public class Dashboard {
         int row = SEPARATOR_ROW + 1;
         int startCol = 1;
 
-        // Table Header:
         tg.setForegroundColor(TextColor.ANSI.GREEN);
-        String header = String.format("%-8s %-20s %-30s %-8s %-10s %-10s", 
+
+        String header = String.format("%-8s %-18s %-55s %-10s %-12s %-10s", 
             "PID", "PROGRAM", "COMMAND", "THREADS", "MEMORY%", "CPU%");
         tg.putString(startCol, row++, header);
 
         for (OSProcess p : snapshot.getProcesses()) {
-            if (row > 50) break; // Prevent overflow beyond terminal
+            if (row >= screen.getTerminalSize().getRows() - 1) break; 
             
-            String commandLine = p.getCommandLine();
-            if (commandLine == null || commandLine.isEmpty()) {
-                commandLine = p.getName();
-            }
-            if (commandLine.length() > 30) {
-                commandLine = commandLine.substring(0, 27) + "...";
-            }
+            String cmd = p.getCommandLine();
+            if (cmd == null || cmd.isEmpty()) cmd = p.getName();
             
-            double memoryPercent = (p.getResidentSetSize() / (double) snapshot.getTotalMemory()) * 100;
-            double cpuPercent = p.getProcessCpuLoadCumulative() * 100;
-            
-            String row_data = String.format("%-8d %-20s %-30s %-8d %-10.1f %-10.1f", 
+            double memUsage = (p.getResidentSetSize() / (double) snapshot.getTotalMemory()) * 100;
+
+            tg.setForegroundColor(TextColor.ANSI.DEFAULT);
+            String rowData = String.format("%-8d %-18s %-55s %-10d %-12.1f %-10.1f", 
                 p.getProcessID(),
-                truncate(p.getName(), 20),
-                commandLine,
-                p.getThreadCount(),
-                memoryPercent,
-                cpuPercent);
-            tg.putString(startCol, row++, row_data);
+                truncate(p.getName(), 18),
+                truncate(cmd, 45),
+                memUsage,
+                p.getProcessCpuLoadCumulative() * 100);
+            
+            tg.putString(startCol, row++, rowData);
         }
     }
 
