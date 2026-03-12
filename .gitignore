@@ -1,0 +1,13 @@
+# Maven
+target/
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+
+# IDEs
+.idea/
+.vscode/
+*.iml
+
+# OS
+.DS_Store

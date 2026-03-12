@@ -79,3 +79,5 @@ Columns include PID, process name/command, thread count, memory percentage, and 
 - Lanterna docs: https://github.com/mabe02/lanterna
 
 >This README is meant to be direct and technical, matching conventions found in other performance‑monitoring tools. Adjust paths or names as appropriate for your repository.
+
+Developed by ☕ ***bieldev***.
