@@ -1,6 +1,9 @@
 package com.sentry.collector;
 
 import org.junit.Test;
+
+import com.sentry.collector.SystemCollector;
+
 import static org.junit.Assert.*;
 
 public class SystemCollectorTest {
@@ -33,5 +36,21 @@ public class SystemCollectorTest {
         double temp = collector.getCpuTemperature();
         // Temperature could be 0 if unavailable; ensure non-negative value
         assertTrue("CPU temperature should be non-negative", temp >= 0);
+    }
+
+    @Test
+    public void getCpuLevelsPerCoreTest() {
+        double[] coresUsage = collector.getCpuLevelsPerCore();
+        boolean isNegative = false;
+
+        for(int i = 0; i < coresUsage.length; i++) {
+            double core = coresUsage[i];
+            
+            if(core > 0) {
+                isNegative = true;
+                break;
+            }
+        }
+        assertTrue("The percentage values ​​for the colors cannot be negative.", !isNegative);
     }
 }
