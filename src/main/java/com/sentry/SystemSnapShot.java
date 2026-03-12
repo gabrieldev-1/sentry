@@ -6,6 +6,11 @@ import oshi.software.os.OSProcess;
 
 import java.util.List;
 
+/**
+ * SystemSnapShot represents an immutable point-in-time capture of system metrics.
+ * It aggregates hardware utilization and process-level data into a single object 
+ * to ensure data consistency across a single UI render cycle.
+ */
 public class SystemSnapShot {
     private static final ProcessCollector pCollector = new ProcessCollector();
     private static final SystemCollector sCollector = new SystemCollector();
