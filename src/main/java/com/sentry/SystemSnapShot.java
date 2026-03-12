@@ -21,12 +21,20 @@ public class SystemSnapShot {
     private final double[] coresUsage; 
 
     private final List<OSProcess> processes;
+    private final int numThreads;
+    private final int numProcesses;
+    private final long totalMemory;
+    private final long usedMemory;
 
     public SystemSnapShot() {
         this.memoryUsage = sCollector.getMemoryUsagePercentage();
         this.cpuUsage = sCollector.getCpuUsage();
         this.cpuTemp = sCollector.getCpuTemperature();
         this.coresUsage = sCollector.getCpuLevelsPerCore();
+        this.numThreads = pCollector.getNumOfThreads();
+        this.numProcesses = pCollector.getNumOfProcesses();
+        this.totalMemory = sCollector.getTotalMemory();
+        this.usedMemory = this.totalMemory - sCollector.getAvailableMemory();
         // default to top 50 processes by CPU
         this.processes = pCollector.getTopProcess(50);
     }
@@ -36,6 +44,10 @@ public class SystemSnapShot {
     public double getCpuTemp() { return cpuTemp; }
     public double[] getCoresUsage() { return coresUsage; } 
     public List<OSProcess> getProcesses() { return processes; }
+    public int getNumThreads() { return numThreads; }
+    public int getNumProcesses() { return numProcesses; }
+    public long getTotalMemory() { return totalMemory; }
+    public long getUsedMemory() { return usedMemory; }
 
     public OSProcess getProcessByPid(int pid) {
         return pCollector.getProcessByPid(pid);
