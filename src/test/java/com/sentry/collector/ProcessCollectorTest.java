@@ -37,4 +37,12 @@ public class ProcessCollectorTest {
         assertTrue("The number of active threads in the system cannot be zero.", result > 0);
 
     }
+
+    @Test
+    public void getNumOfProcessTest() {
+        int result = collector.getNumOfProcesses();
+        assertTrue("The number of active threads in the system cannot be zero.", result > 0);
+
+    }
+
 }

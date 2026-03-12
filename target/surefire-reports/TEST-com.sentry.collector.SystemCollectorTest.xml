@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="com.sentry.collector.SystemCollectorTest" time="0.281" tests="5" errors="0" skipped="0" failures="0">
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="com.sentry.collector.SystemCollectorTest" time="0.213" tests="5" errors="0" skipped="0" failures="0">
   <properties>
     <property name="java.specification.version" value="21"/>
     <property name="sun.jnu.encoding" value="UTF-8"/>
@@ -12,7 +12,7 @@
     <property name="sun.java.launcher" value="SUN_STANDARD"/>
     <property name="user.country" value="US"/>
     <property name="sun.boot.library.path" value="/usr/lib/jvm/java-21-openjdk/lib"/>
-    <property name="sun.java.command" value="/home/genesis/Documents/projects/sentry/target/surefire/surefirebooter-20260312120952503_3.jar /home/genesis/Documents/projects/sentry/target/surefire 2026-03-12T12-09-52_416-jvmRun1 surefire-20260312120952503_1tmp surefire_0-20260312120952503_2tmp"/>
+    <property name="sun.java.command" value="/home/genesis/Documents/projects/sentry/target/surefire/surefirebooter-20260312121400790_3.jar /home/genesis/Documents/projects/sentry/target/surefire 2026-03-12T12-14-00_651-jvmRun1 surefire-20260312121400790_1tmp surefire_0-20260312121400790_2tmp"/>
     <property name="jdk.debug" value="release"/>
     <property name="surefire.test.class.path" value="/home/genesis/Documents/projects/sentry/target/test-classes:/home/genesis/Documents/projects/sentry/target/classes:/home/genesis/.m2/repository/junit/junit/4.11/junit-4.11.jar:/home/genesis/.m2/repository/org/hamcrest/hamcrest-core/1.3/hamcrest-core-1.3.jar:/home/genesis/.m2/repository/com/github/oshi/oshi-core/6.4.0/oshi-core-6.4.0.jar:/home/genesis/.m2/repository/net/java/dev/jna/jna/5.12.1/jna-5.12.1.jar:/home/genesis/.m2/repository/net/java/dev/jna/jna-platform/5.12.1/jna-platform-5.12.1.jar:/home/genesis/.m2/repository/org/slf4j/slf4j-api/2.0.5/slf4j-api-2.0.5.jar:/home/genesis/.m2/repository/org/slf4j/slf4j-simple/2.0.7/slf4j-simple-2.0.7.jar:/home/genesis/.m2/repository/com/googlecode/lanterna/lanterna/3.1.1/lanterna-3.1.1.jar:"/>
     <property name="sun.cpu.endian" value="little"/>
@@ -27,7 +27,7 @@
     <property name="line.separator" value="&#10;"/>
     <property name="java.specification.name" value="Java Platform API Specification"/>
     <property name="java.vm.specification.vendor" value="Oracle Corporation"/>
-    <property name="surefire.real.class.path" value="/home/genesis/Documents/projects/sentry/target/surefire/surefirebooter-20260312120952503_3.jar"/>
+    <property name="surefire.real.class.path" value="/home/genesis/Documents/projects/sentry/target/surefire/surefirebooter-20260312121400790_3.jar"/>
     <property name="sun.management.compiler" value="HotSpot 64-Bit Tiered Compilers"/>
     <property name="java.runtime.version" value="21.0.10+7"/>
     <property name="user.name" value="genesis"/>
@@ -53,8 +53,8 @@
     <property name="sun.io.unicode.encoding" value="UnicodeLittle"/>
     <property name="java.class.version" value="65.0"/>
   </properties>
-  <testcase name="getCpuTemperatureTest" classname="com.sentry.collector.SystemCollectorTest" time="0.006"/>
-  <testcase name="getCpuUsageTest" classname="com.sentry.collector.SystemCollectorTest" time="0.001"/>
+  <testcase name="getCpuTemperatureTest" classname="com.sentry.collector.SystemCollectorTest" time="0.003"/>
+  <testcase name="getCpuUsageTest" classname="com.sentry.collector.SystemCollectorTest" time="0"/>
   <testcase name="getTotalMemoryTest" classname="com.sentry.collector.SystemCollectorTest" time="0"/>
   <testcase name="getCpuLevelsPerCoreTest" classname="com.sentry.collector.SystemCollectorTest" time="0"/>
   <testcase name="getMemoryUsagePercentageTest" classname="com.sentry.collector.SystemCollectorTest" time="0"/>

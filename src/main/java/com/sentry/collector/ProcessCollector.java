@@ -9,12 +9,10 @@ import java.util.List;
 
 public class ProcessCollector {
     private final OperatingSystem os;
-    private List<OSProcess> processes;
 
     public ProcessCollector() {
         this.os = new SystemInfo().getOperatingSystem();
     }
-
 
     /**
      * Return up to {@code limit} processes sorted by CPU usage descending.
@@ -39,5 +37,10 @@ public class ProcessCollector {
         }
 
         return acc;
+    }
+
+    public int getNumOfProcesses() {
+        List<OSProcess> processes = os.getProcesses();
+        return processes.size();
     }
 }
