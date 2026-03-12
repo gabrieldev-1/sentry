@@ -56,8 +56,8 @@ public class Dashboard {
         tg.putString(1, 1, "SENTRY MONITOR - Press Ctril+Z to exit");
 
         renderHeader(snapshot);
-        //renderSeparator(SEPARATOR_ROW);
-        //renderProcessTable(snapshot);
+        renderSeparator(SEPARATOR_COLUMN, SEPARATOR_ROW);
+        renderProcessTable(snapshot);
         
         screen.refresh();
     }
@@ -115,6 +115,71 @@ public class Dashboard {
         tg.putString(col3, rowStart + 2, "threads: " + numOfThreads);
 
 
+    }
+
+    /**
+     * Renders a horizontal separator line.
+     *
+     * @param row the row number to draw the separator at
+     */
+    public void renderSeparator(int column, int row) {
+        tg.setForegroundColor(TextColor.ANSI.BLUE);
+        StringBuilder separetor = new StringBuilder();
+
+        for(int i = 0; i < 115; i++) {
+            separetor.append("─");
+        }
+
+        tg.putString(column, row, separetor.toString());
+    }
+
+    public void renderProcessTable(SystemSnapShot snapshot) {
+        int row = SEPARATOR_ROW + 1;
+        int startCol = 1;
+
+        // Table Header:
+        tg.setForegroundColor(TextColor.ANSI.GREEN);
+        String header = String.format("%-8s %-20s %-30s %-8s %-10s %-10s", 
+            "PID", "PROGRAM", "COMMAND", "THREADS", "MEMORY%", "CPU%");
+        tg.putString(startCol, row++, header);
+
+        for (OSProcess p : snapshot.getProcesses()) {
+            if (row > 50) break; // Prevent overflow beyond terminal
+            
+            String commandLine = p.getCommandLine();
+            if (commandLine == null || commandLine.isEmpty()) {
+                commandLine = p.getName();
+            }
+            if (commandLine.length() > 30) {
+                commandLine = commandLine.substring(0, 27) + "...";
+            }
+            
+            double memoryPercent = (p.getResidentSetSize() / (double) snapshot.getTotalMemory()) * 100;
+            double cpuPercent = p.getProcessCpuLoadCumulative() * 100;
+            
+            String row_data = String.format("%-8d %-20s %-30s %-8d %-10.1f %-10.1f", 
+                p.getProcessID(),
+                truncate(p.getName(), 20),
+                commandLine,
+                p.getThreadCount(),
+                memoryPercent,
+                cpuPercent);
+            tg.putString(startCol, row++, row_data);
+        }
+    }
+
+    /**
+     * Truncates a string to the specified maximum length.
+     *
+     * @param str the string to truncate
+     * @param maxLength the maximum length
+     * @return the truncated string, or original if shorter than maxLength
+     */
+    private String truncate(String str, int maxLength) {
+        if (str.length() > maxLength) {
+            return str.substring(0, maxLength - 3) + "...";
+        }
+        return str;
     }
 
     /**
