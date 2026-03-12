@@ -50,7 +50,6 @@ public class Dashboard {
      * @throws IOException if rendering fails
     */
     public void render(SystemSnapShot snapshot) throws IOException {
-        screen.clear();
 
         tg.setForegroundColor(TextColor.ANSI.CYAN);
         tg.putString(1, 1, "SENTRY MONITOR - Press Ctril+Z to exit");
@@ -115,7 +114,7 @@ public class Dashboard {
         tg.setForegroundColor(TextColor.ANSI.BLUE);
         StringBuilder separetor = new StringBuilder();
 
-        for(int i = 0; i < 115; i++) {
+        for(int i = 0; i < 1; i++) {
             separetor.append("─");
         }
     
@@ -127,8 +126,8 @@ public class Dashboard {
         int startCol = 1;
 
         tg.setForegroundColor(TextColor.ANSI.GREEN);
-
-        String header = String.format("%-8s %-18s %-55s %-10s %-12s %-10s", 
+        // Reduzi levemente o PROGRAM (18->15) e COMMAND (45->40) para dar respiro à CPU%
+        String header = String.format("%-8s %-15s %-40s %-10s %-12s %-10s", 
             "PID", "PROGRAM", "COMMAND", "THREADS", "MEMORY%", "CPU%");
         tg.putString(startCol, row++, header);
 
@@ -139,14 +138,17 @@ public class Dashboard {
             if (cmd == null || cmd.isEmpty()) cmd = p.getName();
             
             double memUsage = (p.getResidentSetSize() / (double) snapshot.getTotalMemory()) * 100;
+            double cpuPercent = p.getProcessCpuLoadCumulative() * 100;
 
             tg.setForegroundColor(TextColor.ANSI.DEFAULT);
-            String rowData = String.format("%-8d %-18s %-55s %-10d %-12.1f %-10.1f", 
+            // A máscara de formatação DEVE ser idêntica à do header para alinhar as colunas
+            String rowData = String.format("%-8d %-15s %-40s %-10d %-12.1f %-10.1f", 
                 p.getProcessID(),
-                truncate(p.getName(), 18),
-                truncate(cmd, 45),
+                truncate(p.getName(), 15),
+                truncate(cmd, 40), 
+                p.getThreadCount(),
                 memUsage,
-                p.getProcessCpuLoadCumulative() * 100);
+                cpuPercent);
             
             tg.putString(startCol, row++, rowData);
         }
