@@ -1,3 +1,8 @@
+<p align="center">
+  <img src="docs/sentry_logo_resize.png" alt="sentry logo" />
+</p>
+
+
 # sentry
 
 `sentry` is a high‑performance Terminal User Interface (TUI) written in Java that provides real‑time monitoring of Linux system resources and process lifecycles. It acts as a lightweight alternative to `top`/`htop`, leveraging native system APIs via the OSHI library to gather granular hardware metrics and renders them using a console UI built on Lanterna.
