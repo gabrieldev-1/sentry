@@ -2,7 +2,6 @@ package com.sentry.collector;
 
 import org.junit.Test;
 import static org.junit.Assert.*;
-
 import java.util.List;
 import oshi.software.os.OSProcess;
 
@@ -43,6 +42,21 @@ public class ProcessCollectorTest {
         int result = collector.getNumOfProcesses();
         assertTrue("The number of active threads in the system cannot be zero.", result > 0);
 
+    }
+
+    @Test
+    public void getTopProcessWithLargeLimitTest() {
+        List<OSProcess> processes = collector.getTopProcess(1000);
+        assertNotNull(processes);
+    }
+
+    @Test
+    public void getProcessByInvalidPidTest() {
+        OSProcess process = collector.getProcessByPid(-1);
+        assertNull(process);
+        
+        process = collector.getProcessByPid(999999);
+        assertNull(process);
     }
 
 }
