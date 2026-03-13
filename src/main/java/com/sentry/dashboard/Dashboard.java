@@ -128,7 +128,6 @@ public class Dashboard {
         int startCol = 1;
 
         tg.setForegroundColor(TextColor.ANSI.GREEN);
-        // Reduzi levemente o PROGRAM (18->15) e COMMAND (45->40) para dar respiro à CPU%
         String header = String.format("%-8s %-15s %-40s %-10s %-12s %-10s", 
             "PID", "PROGRAM", "COMMAND", "THREADS", "MEMORY%", "CPU%");
         tg.putString(startCol, row++, header);
@@ -143,7 +142,6 @@ public class Dashboard {
             double cpuPercent = p.getProcessCpuLoadCumulative() * 100;
 
             tg.setForegroundColor(TextColor.ANSI.DEFAULT);
-            // A máscara de formatação DEVE ser idêntica à do header para alinhar as colunas
             String rowData = String.format("%-8d %-15s %-40s %-10d %-12.1f %-10.1f", 
                 p.getProcessID(),
                 truncate(p.getName(), 15),
