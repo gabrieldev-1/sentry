@@ -97,12 +97,14 @@ public class Dashboard {
         tg.putString(col2, rowStart + 1, String.format("Total: %.1f GB", totalGB));
         tg.putString(col2, rowStart + 2, String.format("Usage: %.1f%%", snapshot.getMemoryUsage()));
 
-        // PROCESSES INFORMATION
+        // SYSTEM INFORMATION
         tg.setForegroundColor(TextColor.ANSI.YELLOW);
         tg.putString(col3, rowStart, "SYSTEM STATUS");
+        
         tg.setForegroundColor(TextColor.ANSI.DEFAULT);
-        tg.putString(col3, rowStart + 1, "Processes: " + snapshot.getProcesses().size());
-        tg.putString(col3, rowStart + 2, "Threads:   " + snapshot.getProcesses().stream().mapToInt(p -> p.getThreadCount()).sum());
+        tg.putString(col3, rowStart + 1, "Uptime: " + snapshot.getUptime());
+        tg.putString(col3, rowStart + 2, "Processes: " + snapshot.getProcesses().size());
+        tg.putString(col3, rowStart + 3, "Threads:   " + snapshot.getProcesses().stream().mapToInt(p -> p.getThreadCount()).sum());
     }
 
     /**
@@ -114,7 +116,7 @@ public class Dashboard {
         tg.setForegroundColor(TextColor.ANSI.BLUE);
         StringBuilder separetor = new StringBuilder();
 
-        for(int i = 0; i < 1; i++) {
+        for(int i = 0; i < 110; i++) {
             separetor.append("─");
         }
     

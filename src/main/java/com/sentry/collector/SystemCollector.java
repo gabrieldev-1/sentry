@@ -1,10 +1,13 @@
 package com.sentry.collector;
 
+import java.lang.management.OperatingSystemMXBean;
+
 import oshi.SystemInfo;
 import oshi.hardware.CentralProcessor;
 import oshi.hardware.GlobalMemory;
 import oshi.hardware.HardwareAbstractionLayer;
 import oshi.hardware.Sensors;
+import oshi.software.os.OperatingSystem;
 
 /**
  * SystemCollector retrieves real-time hardware metrics using the OSHI library.
@@ -17,6 +20,7 @@ public class SystemCollector {
     private final CentralProcessor cpu;
     private final GlobalMemory memory;
     private final Sensors sensors;
+    private final OperatingSystem os;
     
     /** Global CPU tick storage for system-wide load calculation. */
     private long[] previousSystemTicks;
@@ -26,16 +30,38 @@ public class SystemCollector {
 
     public SystemCollector() {
         HardwareAbstractionLayer hal = SI.getHardware();
+        this.os = SI.getOperatingSystem();
         this.sensors = hal.getSensors();
         this.memory = hal.getMemory();
         this.cpu = hal.getProcessor();
+
         this.previousSystemTicks = cpu.getSystemCpuLoadTicks();
         this.previousProcessorTicks = cpu.getProcessorCpuLoadTicks();
     }
 
     /**
+     * Method that calculates the current uptime. Using the getSystemUptime * function of OSHI and an auxiliary method for converting values ​​and * formatting the text;
+     *   
+     * @return Current uptime as a string
+     */
+
+    public String getSystemUptime() {
+        long seconds = os.getSystemUptime();
+        return formatUptime(seconds);
+    }
+
+    private String formatUptime(long seconds) {
+        long hours = (seconds % 86400) / 3600;
+        long minutes = (seconds % 3600) / 60;
+        long secs = seconds % 60;
+
+        return String.format("%02d:%02d:%02d", hours, minutes, secs);
+            
+    }
+
+    /**
      * Calculates the percentage of physical memory currently in use.
-     * * @return Memory usage as a percentage (0.0 to 100.0).
+     * @return Memory usage as a percentage (0.0 to 100.0).
      */
     public double getMemoryUsagePercentage() {
         long total = memory.getTotal();
