@@ -28,41 +28,15 @@
 - **Unit Tests** – validate collector outputs are within expected ranges and not negative.
 - **Maven** – project build and dependency management via `pom.xml`.
 
-## Installation
-
-1. **Prerequisites**
-
-   - Linux system with Java 11+ installed.
-   - `mvn` (Apache Maven) available in `PATH`.
-   - Optional: `lm_sensors` installed for CPU temperature readings.
-
-2. **Clone & Build**
-
-   ```bash
-   git clone https://github.com/<your‑org>/sentry.git
-   cd sentry
-   mvn clean package
-   ```
-
-   The build produces a jar under `target/` containing dependencies.
-
-3. **Run Tests**
-
-   ```bash
-   mvn test
-   ```
-
-   Tests exercise the collector classes; they don’t require specific privileges.
-
 ## Usage
 
-```bash
-java -jar target/sentry-<version>-jar-with-dependencies.jar
-```
+You don't need to compile the code to use Sentry. Just follow these steps:
 
-- Launches the TUI in the current terminal.
-- Refreshes every 2 seconds.
-- Exit with `Ctrl+Z` (or kill the process).
+1. **Download:** Go to the [Releases](LINK_PARA_SUA_RELEASE_AQUI) page and download the `sentry-1.3.jar`.
+2. **Prerequisites:** Ensure you have **Java 17** (or higher) installed. You can check this by running `java -version` in your terminal.
+3. **Run:** Open your terminal in the folder where you downloaded the file and type:
+   ```bash
+   java -jar sentry-1.3.jar
 
 ### What You’ll See
 
