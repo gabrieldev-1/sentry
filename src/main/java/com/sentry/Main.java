@@ -1,11 +1,13 @@
 package com.sentry;
 
 import com.sentry.dashboard.Dashboard;
-
-import com.sentry.SystemSnapShot;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import java.io.IOException;
+import java.util.Arrays;
 
+@SpringBootApplication
 public class Main {
 
     public static final String mark = """
@@ -37,6 +39,7 @@ public class Main {
         System.out.println();
         System.out.println("OPTIONS:");
         System.out.println("    -h, --help    Show this help message and exit");
+        System.out.println("    --web         Start in web mode with REST API");
         System.out.println();
         System.out.println("CONTROLS:");
         System.out.println("    Ctrl+C        Exit the application");
@@ -48,9 +51,9 @@ public class Main {
         System.out.println("    - Processes: Top processes by CPU usage with detailed metrics");
         System.out.println();
         System.out.println("EXAMPLES:");
-        System.out.println("    java -jar sentry.jar        # Start monitoring");
+        System.out.println("    java -jar sentry.jar        # Start monitoring (console mode)");
         System.out.println("    java -jar sentry.jar -h     # Show this help");
-        System.out.println("    java -jar sentry.jar --help # Show this help");
+        System.out.println("    java -jar sentry.jar --web  # Start REST API server");
     }
 
     public static void main(String[] args) {
@@ -59,27 +62,34 @@ public class Main {
             System.exit(0);
         }
 
-        Dashboard dashboard = null;
+        // Check if web mode is requested
+        if (Arrays.asList(args).contains("--web")) {
+            // Start Spring Boot application for REST API
+            SpringApplication.run(Main.class, args);
+        } else {
+            // Default console mode
+            Dashboard dashboard = null;
 
-        try {
-            dashboard = new Dashboard();
-            while (true) {
-                SystemSnapShot snapshot = new SystemSnapShot();
-                dashboard.render(snapshot);
-                Thread.sleep(2000);
-            }
+            try {
+                dashboard = new Dashboard();
+                while (true) {
+                    SystemSnapShot snapshot = new SystemSnapShot();
+                    dashboard.render(snapshot);
+                    Thread.sleep(2000);
+                }
 
-        } catch (Exception e) {
-            e.printStackTrace();
+            } catch (Exception e) {
+                e.printStackTrace();
 
-        } finally {
-            if (dashboard != null) {
-                try {
-                    dashboard.close();
+            } finally {
+                if (dashboard != null) {
+                    try {
+                        dashboard.close();
 
-                } catch (IOException e) {
-                    e.printStackTrace();
+                    } catch (IOException e) {
+                        e.printStackTrace();
 
+                    }
                 }
             }
         }
