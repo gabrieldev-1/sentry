@@ -11,5 +11,3 @@ pom.xml.versionsBackup
 
 # OS
 .DS_Store
-
-.Dockerfile
